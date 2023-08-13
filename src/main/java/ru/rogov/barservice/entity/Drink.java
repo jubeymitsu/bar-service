@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
@@ -19,15 +20,21 @@ public class Drink {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "name")
+
+    @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
+
     @Column(name = "content")
     private String content;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "available")
     private boolean available;
 }
