@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.rogov.barservice.service.drink.DrinkService;
 import ru.rogov.barservice.storage.StorageFileNotFoundException;
 import ru.rogov.barservice.storage.StorageService;
 
@@ -25,10 +26,12 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final DrinkService drinkService;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, DrinkService drinkService) {
         this.storageService = storageService;
+        this.drinkService = drinkService;
     }
 
     @GetMapping("/")
@@ -43,22 +46,22 @@ public class FileUploadController {
     }
 
     @GetMapping("/uploadTest")
-    public String jsUpload(){
-        return "jsUploadForm";
+    public String drinkForm(){
+        return "drinkForm";
     }
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        System.out.println(filename);
         Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    public String handleFileUpload(@RequestParam("photo") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");

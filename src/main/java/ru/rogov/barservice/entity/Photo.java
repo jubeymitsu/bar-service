@@ -20,7 +20,7 @@ public class Photo {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "image_uri")
+    private String imageUri;
 
 }

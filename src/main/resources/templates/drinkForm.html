@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<form id="drinkForm">
+    <table>
+        <tr>
+            <td><label for="dName">Name:</label></td>
+            <td><input type="text" name="name" id="dName"/></td>
+        </tr>
+        <tr>
+            <td><label for="dContent">Content:</label></td>
+            <td><input type="text" name="content" id="dContent"/></td>
+        </tr>
+        <tr>
+            <td><label for="dPhoto">File:</label></td>
+            <td><input type="file" name="photo" id="dPhoto"/></td>
+        </tr>
+        <tr>
+            <td><label for="dDescription">Description:</label></td>
+            <td><input type="text" name="description" id="dDescription"/></td>
+        </tr>
+        <tr>
+            <td><label for="dAvailable">Available:</label></td>
+            <td><input type="checkbox" name="available" id="dAvailable"/></td>
+        </tr>
+    </table>
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    const drinkForm = document.getElementById("drinkForm");
+    const name = document.getElementById("dName");
+    const content = document.getElementById("dContent");
+    const file = document.getElementById("dPhoto");
+    const description = document.getElementById("dDescription");
+    const available = document.getElementById("dAvailable");
+
+    drinkForm.addEventListener("submit", e => {
+        e.preventDefault();
+        const endpoint = "/drinkUpload";
+        const formData = new FormData();
+
+        formData.append("name", name.value);
+        formData.append("content", content.value);
+        formData.append("photo", file.files[0]);
+        formData.append("description", description.value);
+        formData.append("available", available.checked);
+
+
+        fetch(endpoint, {
+            method: "post",
+            body: formData
+        }).catch(console.error)
+
+    })
+</script>
+</body>
+</html>

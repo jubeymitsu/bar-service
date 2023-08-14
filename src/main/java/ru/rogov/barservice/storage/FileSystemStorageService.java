@@ -15,15 +15,20 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.rogov.barservice.entity.Photo;
+import ru.rogov.barservice.service.photo.PhotoService;
 
 @Service
 public class FileSystemStorageService implements StorageService {
 
     private final Path rootLocation;
+    @Autowired
+    private final PhotoService photoService;
 
     @Autowired
-    public FileSystemStorageService(StorageProperties properties) {
+    public FileSystemStorageService(StorageProperties properties, PhotoService photoService) {
         this.rootLocation = Paths.get(properties.getLocation());
+        this.photoService = photoService;
     }
 
     @Override
@@ -44,8 +49,7 @@ public class FileSystemStorageService implements StorageService {
                 Files.copy(inputStream, destinationFile,
                         StandardCopyOption.REPLACE_EXISTING);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }
     }
@@ -73,6 +77,7 @@ public class FileSystemStorageService implements StorageService {
         try {
             Path file = load(filename);
             Resource resource = new UrlResource(file.toUri());
+            System.out.println(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             }

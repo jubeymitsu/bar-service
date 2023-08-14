@@ -1,6 +1,5 @@
 package ru.rogov.barservice.service.photo;
 
-import ru.rogov.barservice.entity.Drink;
 import ru.rogov.barservice.entity.Photo;
 
 import java.util.List;
