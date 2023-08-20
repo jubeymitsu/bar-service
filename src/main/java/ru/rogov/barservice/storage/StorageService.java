@@ -20,4 +20,6 @@ public interface StorageService {
 
     void deleteAll();
 
+    byte[] representImage(String filename);
+
 }

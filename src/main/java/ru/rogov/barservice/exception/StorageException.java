@@ -1,4 +1,4 @@
-package ru.rogov.barservice.storage;
+package ru.rogov.barservice.exception;
 
 public class StorageException extends RuntimeException {
 

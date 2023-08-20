@@ -15,7 +15,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-import ru.rogov.barservice.entity.Photo;
+import ru.rogov.barservice.exception.StorageException;
+import ru.rogov.barservice.exception.StorageFileNotFoundException;
 import ru.rogov.barservice.service.photo.PhotoService;
 
 @Service
@@ -95,6 +96,19 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    @Override
+    public byte[] representImage(String filename) {
+        Path path = Path.of(rootLocation.toString(), filename);
+        byte[] bytes;
+        System.out.println(path);
+        try {
+            bytes = Files.readAllBytes(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return bytes;
     }
 
     @Override
