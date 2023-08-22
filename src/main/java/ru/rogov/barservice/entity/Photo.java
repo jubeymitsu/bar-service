@@ -1,5 +1,6 @@
 package ru.rogov.barservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class Photo {
     private String title;
 
     @Column(name = "image_uri")
+    @JsonIgnore
     private String imageUri;
 
 }

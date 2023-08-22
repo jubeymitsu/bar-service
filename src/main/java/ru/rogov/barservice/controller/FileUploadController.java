@@ -70,14 +70,21 @@ public class FileUploadController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("photo") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+    public String handleFileUpload(@RequestParam("photo") MultipartFile file) {
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
         return "redirect:/upload";
     }
+
+    // Testing
+    @GetMapping("/download/{filename:.+}")
+    public ResponseEntity downloadImageByName(@PathVariable String filename){
+        byte[] bytes = storageService.representImage(filename);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(bytes);
+    }
+
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
