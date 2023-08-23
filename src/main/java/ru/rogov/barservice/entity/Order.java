@@ -8,9 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -30,17 +27,21 @@ public class Order {
     @Column(name = "identifier")
     private String identifier;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "orders_drinks",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "drink_id")
-    )
-    private List<Drink> drinks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DrinkOrder> drinks = new ArrayList<>();
+
+//    public void addDrink(Drink drink, int amount) {
+//        DrinkOrder drinkOrder = new DrinkOrder(drink, amount);
+//        drinks.add(drinkOrder);
+//    }
+//
+//    public void removeDrink(Drink drink) {
+//        drinks.removeIf(drinkOrder -> drinkOrder.getDrink().equals(drink));
+//    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus status;
-
 
 }

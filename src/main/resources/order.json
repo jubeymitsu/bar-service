@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "drinks": [
+    {
+      "drink": {
+        "id": 1,
+        "name": "Vodka"
+      },
+      "amount": 3
+    }
+  ]
+}

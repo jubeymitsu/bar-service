@@ -15,9 +15,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "drinks")
 @Data
@@ -34,7 +31,7 @@ public class Drink {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "photo_id")
     private Photo photo;
 
@@ -43,8 +40,5 @@ public class Drink {
 
     @Column(name = "available")
     private boolean available;
-
-    @ManyToMany(mappedBy = "drinks")
-    private List<Order> orders = new ArrayList<>();
 
 }

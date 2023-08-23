@@ -37,7 +37,9 @@ public class DrinkServiceImpl implements DrinkService {
     @Override
     public Drink updateDrink(Long id, Drink drink) {
         Drink drinkFromDB = findDrinkById(id);
-        BeanUtils.copyProperties(drink, drinkFromDB, "id");
+        BeanUtils.copyProperties(drink, drinkFromDB, "id", "photo");
+//        if (drink.getPhoto() != null) {
+//        }
         return drinkRepo.save(drinkFromDB);
     }
 
